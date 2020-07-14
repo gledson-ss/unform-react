@@ -41,7 +41,9 @@
     }
   },
   "dependencies": {
+    "@types/yup": "^0.29.3",
     "@unform/core": "^2.1.3",
-    "@unform/web": "^2.1.3"
+    "@unform/web": "^2.1.3",
+    "yup": "^0.29.1"
   }
 }

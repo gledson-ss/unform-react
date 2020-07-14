@@ -1,5 +1,3 @@
-import { readFileSync } from "fs";
-
 import React, { useEffect, useRef } from "react";
 import { useField } from "@unform/core";
 

@@ -1,6 +1,18 @@
-import React, { useRef } from "react";
+import React, {
+  useRef,
+  useEffect,
+  ReactElement,
+  HtmlHTMLAttributes,
+} from "react";
+import * as Yup from "yup";
 import { Form } from "@unform/web";
-import { Scope, FormHandles } from "@unform/core";
+import {
+  Scope,
+  FormHandles,
+  UnformField,
+  UnformContext,
+  SubmitHandler,
+} from "@unform/core";
 import "./App.css";
 
 import Input from "./components/Form/input";
@@ -8,19 +20,51 @@ import Input from "./components/Form/input";
 const initialData = {
   password: "password",
 };
-
+interface FormData {
+  name: string;
+  email: string;
+}
 function App() {
-  const formRef = useRef(null);
+  const formRef = useRef<FormHandles>(null);
 
-  function handleSubmit(data: React.InputHTMLAttributes<HTMLInputElement>) {
-    console.log(data.name);
+  async function handleSubmit(data: any, { reset }: any) {
+    try {
+      const schema = Yup.object().shape({
+        name: Yup.string().required("name is requered"),
+        email: Yup.string()
+          .email("not is correct")
+          .required("email is required"),
+        address: Yup.object().shape({
+          city: Yup.string()
+            .min(3, "minimun is 3")
+            .required("city is required"),
+        }),
+      });
+
+      await schema.validate(data, {
+        abortEarly: false,
+      });
+
+      console.log(data);
+      reset();
+    } catch (err) {
+      if (err instanceof Yup.ValidationError) {
+        console.log(err);
+        const errorMessages: any = {};
+        err.inner.forEach((error) => {
+          errorMessages[error.path] = error.message;
+        });
+        formRef.current?.setErrors(errorMessages);
+        reset()
+      }
+    }
   }
 
   return (
     <div className="App">
       <h1>hello unform</h1>
 
-      <Form initialData={initialData} onSubmit={handleSubmit}>
+      <Form ref={formRef} initialData={initialData} onSubmit={handleSubmit}>
         <Input name="name" />
         <Input name="email" />
         <Scope path="address">
