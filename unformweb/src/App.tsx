@@ -1,6 +1,4 @@
-import React, {
-  useRef,
-} from "react";
+import React, { useRef } from "react";
 import * as Yup from "yup";
 import { Form } from "@unform/web";
 import {
@@ -15,7 +13,7 @@ import "./App.css";
 import Input from "./components/Form/input";
 
 const initialData = {
-  password: "password",
+  email: "algo",
 };
 interface FormData {
   name: string;
@@ -52,7 +50,7 @@ function App() {
           errorMessages[error.path] = error.message;
         });
         formRef.current?.setErrors(errorMessages);
-        reset()
+        reset();
       }
     }
   }
