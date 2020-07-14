@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import * as Yup from "yup";
 import { Form } from "@unform/web";
 import {
@@ -11,10 +11,6 @@ import {
 import "./App.css";
 
 import Input from "./components/Form/input";
-
-const initialData = {
-  email: "algo",
-};
 interface FormData {
   name: string;
   email: string;
@@ -55,11 +51,24 @@ function App() {
     }
   }
 
+  useEffect(() => {
+    setTimeout(() => {
+      formRef.current?.setData({
+        name: "dev",
+        email: "algo@algo.com",
+        address: {
+          city: "Sao Paulo",
+        },
+      });
+    }, 2000);
+  }, []);
+
   return (
     <div className="App">
       <h1>hello unform</h1>
-
-      <Form ref={formRef} initialData={initialData} onSubmit={handleSubmit}>
+      {/* inicial data somente quando o dato for estatico */}
+      {/* initialData={initialData} */}
+      <Form ref={formRef} onSubmit={handleSubmit}>
         <Input name="name" />
         <Input name="email" />
         <Scope path="address">
