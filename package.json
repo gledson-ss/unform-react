@@ -41,5 +41,9 @@
     "cz-customizable": {
       "config": "config/path/to/my/config.js"
     }
+  },
+  "dependencies": {
+    "@unform/core": "^2.1.3",
+    "@unform/web": "^2.1.3"
   }
 }
